@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+
+
+    <arg name="sim" default="false" />
+
+    <!-- Run the map server with a blank map -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find pgbot_bringup)/maps/blank_map.yaml"/>
+
+
+
+    <!-- Run Gmapping -->
+    <include file="$(find pgbot_exploration)/launch/gmapping.launch">
+    </include>
+
+
+    <!-- Run odom kalman filter -->
+    <!-- Stopped using kalman filter as plidar provides very good results -->
+    <!-- <include file="$(find pgbot_localization)/launch/localization_odom.launch">
+    </include> -->
+
+    <!-- Run Navigation -->
+    <include file="$(find pgbot_exploration)/launch/navigation.launch">
+    </include>
+
+
+    <include file="$(find pgbot_exploration)/launch/iwexplore.launch">
+        <arg name="sim" value="$(arg sim)" />
+    </include>
+
+</launch>

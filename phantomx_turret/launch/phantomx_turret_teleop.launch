@@ -1,0 +1,16 @@
+<launch>
+  <arg name="node_name" default="node_1" />
+
+  <param name="$(arg node_name)/robot_description"
+    command="$(find xacro)/xacro --inorder '$(find phantomx_turret)/urdf/phantomx_turret.urdf.xacro'" />
+
+  <!-- send fake joint values -->
+  <node ns="$(arg node_name)" name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="TRUE"/>
+    <param name="rate" value="10"/>
+  </node>
+
+  <!-- Combine joint values -->
+  <node ns="$(arg node_name)" name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+
+</launch>

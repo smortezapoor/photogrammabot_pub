@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<robot name="phantomx_turret" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find phantomx_turret)/urdf/pan_tilt_hardware.xacro"/>
+
+  <!-- angle limits in rad ~ +/- 150 deg !-->
+  <xacro:property name="ax12_llimit" value="${-(5.0/6.0)*M_PI}"/>
+  <xacro:property name="ax12_ulimit" value="${(5.0/6.0)*M_PI}"/>
+  <!-- vlimit in rad/s ~(0.111rpm * 1023) !-->
+  <xacro:property name="ax12_vlimit" value="11.891242339515"/>
+  <!-- elimit in N m !-->
+  <xacro:property name="ax12_elimit" value="1.5"/>
+
+  <material name="White">
+    <color rgba="0.87 0.90 0.87 1.0"/>
+  </material>
+  <material name="Black">
+    <color rgba="0.08 0.08 0.08 1.0"/>
+  </material>
+  <material name="Gray">
+    <color rgba="0.2 0.2 0.21 1.0"/>
+  </material>
+  <material name="Green">
+    <color rgba="0.22 0.32 0.14 1.0"/>
+  </material>
+
+  <!-- ros_control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/phantomx_turret</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+      <legacyModeNS>true</legacyModeNS>
+    </plugin>
+  </gazebo>
+
+
+  <base_mount parent="base_link" name="base_mount" color="Gray" >
+      <origin xyz="0.05 0 0.13" rpy="0 0 0"/>
+  </base_mount>
+
+  <!-- AX-12A Pan !-->
+  <AX12A_compound_fixed parent="base_mount_link" name="pan"
+                        elimit="${ax12_elimit}" vlimit="${ax12_vlimit}" 
+                        llimit="${ax12_llimit}" ulimit="${ax12_ulimit}">
+    <origin xyz="-2e-6 -9e-6 0.0763" rpy="0 0 0"/>
+  </AX12A_compound_fixed>
+
+  <interbotix_F3_bracket_fixed parent="pan_link" name="pan_F3" color="Gray">
+    <origin xyz="0 0 0.02094" rpy="0 0 0"/>
+  </interbotix_F3_bracket_fixed>
+
+  <AX12A_compound_fixed parent="pan_F3_link" name="tilt"
+                        elimit="${ax12_elimit}" vlimit="${ax12_vlimit}" 
+                        llimit="${ax12_llimit}" ulimit="${ax12_ulimit}">
+    <origin xyz="0 0 0.0415" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+  </AX12A_compound_fixed>
+
+  <interbotix_F2_bracket_fixed parent="tilt_link" name="pan_F2" color="Gray">
+    <origin xyz="-0.002002 0.017175 -3.601e-7" rpy="0 0 0"/>
+  </interbotix_F2_bracket_fixed>
+
+  <camera_mount_fixed parent="pan_F2_link" name="camera_mount" color="White">
+    <origin xyz="-3.788e-9 0.009325 4e-8" rpy="0 0 0"/>
+  </camera_mount_fixed>
+
+  <rpi_camera_fixed parent="camera_mount_link" name="endcamera" color="Green">
+    <origin xyz="0.01535 0.008 -0.0125" rpy="0 0 0"/>
+  </rpi_camera_fixed>
+
+</robot>

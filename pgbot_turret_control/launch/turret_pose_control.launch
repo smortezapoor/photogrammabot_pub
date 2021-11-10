@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="pgbot_turret_pose_control" pkg="pgbot_turret_control" type="pose_control.py" output="screen" >
+        <rosparam file="$(find pgbot_turret_control)/config/pose_control.yaml" command="load" />
+    </node>
+</launch>
+

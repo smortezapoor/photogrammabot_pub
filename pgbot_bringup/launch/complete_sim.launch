@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Run Sim -->
+    <include file="$(find pgbot_bringup)/launch/sim/gazebo.launch">
+    </include>
+
+    <!-- Run Base -->
+    <include file="$(find pgbot_bringup)/launch/complete_base.launch">
+        <arg name="sim" value="true" />
+    </include>
+
+
+    <!-- Run turret control -->
+    <include file="$(find pgbot_turret_control)/launch/complete.launch">
+        <arg name="sim" value="true" />
+    </include>
+
+    <!-- Run camera control -->
+    <include file="$(find pgbot_camera_control)/launch/camera_control.launch">
+        <arg name="sim" value="true" />
+    </include>
+
+    <!-- Run Rviz -->
+    <include file="$(find pgbot_bringup)/launch/rviz.launch">
+    </include>
+</launch>

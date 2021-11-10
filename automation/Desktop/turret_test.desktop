@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=TurretTest
+Comment=This is a turret test app
+Exec=bash -c 'source ~/Desktop/command_center/turret_test.sh;$SHELL'
+Icon=utilities-terminal
+Terminal=true 
+Type=Application
+Categories=Application;

@@ -1,0 +1,11 @@
+poses:  {
+  neutral:      { pan:  0    , tilt: 0   },
+  home:         { pan:  90  , tilt: -80 },
+  forward30:    { pan:  90  , tilt: -30 },
+  forward60:    { pan:  90  , tilt: -60 },
+  forward0:     { pan:  90  , tilt: 0   },
+  relax:        { pan: -1  , tilt: -1   }
+}
+speed: 1
+initialization_move: true
+turret_mount_yaw_degrees: 0

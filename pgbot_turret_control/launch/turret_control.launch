@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="degree_tole" default="5"/>
+
+    <node name="pgbot_turret_control" pkg="pgbot_turret_control" type="turret_control.py" output="screen" required="true">
+            <param name="degree_tole" value="$(arg degree_tole)"/>
+    </node>
+</launch>
+

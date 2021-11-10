@@ -1,0 +1,11 @@
+export ROS_PARALLEL_JOBS=-j1 # Limit the number of compile threads due to memor$
+export TURTLEBOT_BASE=kobuki
+export TURTLEBOT_3D_SENSOR=astra
+export TURTLEBOT_STACK=hexagons
+export CAMERA_POSES='[{"pan": -90, "tilt": -85}, {"pan":  -60, "tilt": -30}, {"pan":  -60, "tilt": -45}, {"pan":  0, "tilt": -30  }, {"pan":  0, "tilt": -45  }, {"pan":  90, "tilt": -30  }, {"pan":  90, "tilt": -45  }]'
+export PORT_ARBOTIX=/dev/arbotix
+export PORT_RPLIDAR=/dev/rplidar
+export PORT_KOBUKI=/dev/kobuki
+export TURTLEBOT_GAZEBO_WORLD_FILE='$(find pgbot_bringup)/gazebo/test_room_scat.world'
+export TURTLEBOT_BATTERY=/proc/acpi/battery/BAT0
+export TURTLEBOT_STACKS=hexagons

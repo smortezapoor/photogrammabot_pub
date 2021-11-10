@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="sim" default="false" />
+    
+    <group if="$(arg sim)">
+        <node name="pgbot_camera_control" pkg="pgbot_camera_control" type="camera_control_sim.py" output="screen" required="true">
+        </node>
+    </group>
+    <group unless="$(arg sim)">
+        <node name="pgbot_camera_control" pkg="pgbot_camera_control" type="camera_control.py" output="screen" required="true">
+        </node>
+    </group>
+</launch>
+

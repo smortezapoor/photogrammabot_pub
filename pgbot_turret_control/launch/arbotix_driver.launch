@@ -1,0 +1,9 @@
+<launch>
+  <arg name="sim" default="false"/>
+  <arg name="port" default="/dev/ttyUSB0" />
+  <node name="arbotix" pkg="arbotix_python" type="arbotix_driver" output="screen">
+    <rosparam file="$(find pgbot_turret_control)/config/phantomx.yaml" command="load" />
+    <param name="sim" value="$(arg sim)"/>
+    <param name="port" value="$(arg port)"/>
+  </node>
+</launch>

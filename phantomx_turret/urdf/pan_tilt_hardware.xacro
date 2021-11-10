@@ -1,0 +1,415 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:property name="M_PI" value="3.14159"/>
+  <xacro:property name="M_SCALE" value="0.001"/>
+
+  <xacro:macro name="base_mount" params="parent name color *origin">
+   <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+        <parent link="${parent}"/>
+        <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <inertial>
+        <mass value="0.21328"/>
+        <origin xyz="0.00199427 0.0257168 0.00107065"/>
+        <inertia ixx="0.0003798" ixy="0" ixz="0"
+                 iyy="0.0006116" iyz="0"
+                 izz="0.000379"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0"/>
+        <geometry>
+          <mesh filename="package://phantomx_turret/meshes/Base.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>
+
+      <collision>
+        <origin xyz="-2e-6 -9e-6 0.05785" rpy="${M_PI/2} 0 0"/>
+        <geometry>
+          <box size="0.1045 0.0049 0.1045"/>
+        </geometry>
+      </collision>
+
+      <collision>
+        <origin xyz="-2e-6 -9.5e-6 0.0329" rpy="${M_PI/2} 0 0"/>
+        <geometry>
+          <box size="0.086 0.045 0.086929"/>
+        </geometry>
+      </collision>
+
+      <collision>
+        <origin xyz="-2e-6 -9e-6 0.005139" rpy="${M_PI/2} 0 0"/>
+        <geometry>
+          <box size="0.178 0.010522 0.178"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${name}_link">
+      <material>Gazebo/${color}</material>
+      <selfCollide>false</selfCollide>
+      <gravity>true</gravity>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:macro name="AX12A_fixed" params="parent name *origin">
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <inertial>
+        <mass value="0.0546"/>
+        <origin xyz="-2.89001e-5 -0.0126033 0.00112682"/>
+        <inertia ixx="1.43900e-5" ixy="1.54100e-9" ixz="1.1563e-8"
+                 iyy="1.21900e-5" iyz="2.16221e-7"
+                 izz="7.768456e-6"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://phantomx_turret/meshes/AX-12A.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
+        <material name="Black"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 -0.0135 0.0010025" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.032 0.05 0.040047"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${name}_link">
+      <material>Gazebo/Black</material>
+      <selfCollide>false</selfCollide>
+      <gravity>true</gravity>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:macro name="AX12A_compound_fixed" params="parent name llimit ulimit vlimit elimit *origin">
+    <joint name="${name}_body_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${name}_body_link"/>
+    </joint>
+
+    <link name="${name}_body_link">
+      <inertial>
+        <mass value="0.052587"/>
+        <origin xyz="-3.01694e-5 -0.0131566 0.000442296"/>
+        <inertia ixx="1.3400e-05" ixy="-1.0798e-08" ixz="2.4880e-09"
+                 iyy="7.1120e-06" iyz="1.9648e-07"
+                 izz="1.1780e-05"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://phantomx_turret/meshes/AX-12A-Fixed.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
+        <material name="Black"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${name}_body_link">
+      <material>Gazebo/Black</material>
+      <selfCollide>false</selfCollide>
+      <gravity>true</gravity>
+    </gazebo>
+
+
+    <joint name="${name}_horn_joint" type="revolute">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="${elimit}" velocity="${vlimit}" lower="${llimit}" upper="${ulimit}"/>
+      <dynamics friction="0.13"/>
+      <parent link="${name}_body_link"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <inertial>
+        <mass value="0.002013"/>
+        <origin xyz="2.05733e-9 -3.64002e-6 0.0167129"/>
+        <inertia ixx="1.4571e-07" ixy="5.0780e-15" ixz="-1.7060e-14"
+                 iyy="1.4591e-07" iyz="1.7000e-11"
+                 izz="7.6730e-08"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://phantomx_turret/meshes/AX-12A-Rotating.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
+        <material name="Black"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${name}_link">
+      <material>Gazebo/Black</material>
+      <selfCollide>false</selfCollide>
+      <gravity>true</gravity>
+    </gazebo>
+
+  </xacro:macro>
+
+  <xacro:macro name="interbotix_F3_bracket_fixed" params="parent name color *origin">
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <inertial>
+        <mass value="0.004398"/>
+        <origin xyz="2.45363e-17 -2.45363e-17 0.00183916"/>
+        <inertia ixx="7.00046e-7" ixy="0" ixz="0"
+                 iyy="2.66739e-7" iyz="0"
+                 izz="9.31478e-7"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${M_PI/2}"/>
+        <geometry>
+          <mesh filename="package://phantomx_turret/meshes/F3-Bracket.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${name}_link">
+      <material>Gazebo/${color}</material>
+      <selfCollide>false</selfCollide>
+      <gravity>true</gravity>
+    </gazebo>
+
+  </xacro:macro>
+
+  <xacro:macro name="interbotix_F2_bracket_fixed" params="parent name color *origin">
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <inertial>
+        <mass value="0.011446"/>
+        <origin xyz="1.73681e-8 3.78795e-9 -3.90228e-9"/>
+        <inertia ixx="4.9483e-06" ixy="0" ixz="8.3000e-11"
+                 iyy="2.2081e-06" iyz="0"
+                 izz="4.4637e-06"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="${M_PI/2} ${M_PI} 0"/>
+        <geometry>
+          <mesh filename="package://phantomx_turret/meshes/F2-Bracket.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${name}_link">
+      <material>Gazebo/${color}</material>
+      <selfCollide>false</selfCollide>
+      <gravity>true</gravity>
+    </gazebo>
+
+  </xacro:macro>
+
+  <xacro:macro name="camera_mount_fixed" params="parent name color *origin">
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <inertial>
+        <mass value="0.006453"/>
+        <origin xyz="3.09425e-6 0.00873896 -0.00980897"/>
+        <inertia ixx="1.3618e-06" ixy="1.4400e-10" ixz="8.2000e-11"
+                 iyy="1.4384e-06" iyz="3.8945e-07"
+                 izz="1.5063e-06"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 ${-M_PI/2} 0"/>
+        <geometry>
+          <mesh filename="package://phantomx_turret/meshes/Head.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${name}_link">
+      <material>Gazebo/${color}</material>
+      <selfCollide>false</selfCollide>
+      <gravity>true</gravity>
+    </gazebo>
+
+  </xacro:macro>
+
+  <xacro:macro name="rpi_camera_fixed" params="parent name color *origin">
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <inertial>
+        <mass value="0.003"/>
+        <origin xyz="-0.00911549 -0.012447 0.000734977"/>
+        <inertia ixx="3.5256e-07" ixy="1.1050e-09" ixz="3.5024e-08"
+                 iyy="4.1795e-07" iyz="2.6700e-10"
+                 izz="7.0244e-07"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}"/>
+        <geometry>
+          <mesh filename="package://phantomx_turret/meshes/Camera.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${name}_link">
+      <material>Gazebo/${color}</material>
+      <selfCollide>false</selfCollide>
+      <gravity>true</gravity>
+    </gazebo>
+
+    <joint name="${name}_lens_joint" type="fixed">
+      <origin xyz="0.00615 0.009462 0.0125" rpy="0 0 0"/>
+      <parent link="${name}_link"/>
+      <child link="${name}_lens_link"/>
+    </joint>
+
+    <link name="${name}_lens_link">
+      <inertial>
+        <mass value="0.0001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1e-09" ixy="0" ixz="0"
+                 iyy="1e-09" iyz="0"
+                 izz="1e-09"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 ${M_PI/2} 0"/>
+        <geometry>
+          <cylinder radius="0.0005" length="0.0005"/>
+        </geometry>
+        <material name="Black"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 ${M_PI/2} 0"/>
+        <geometry>
+          <cylinder radius="0.0005" length="0.0005"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${name}_lens_link">
+      <material>Gazebo/Black</material>
+      <selfCollide>false</selfCollide>
+      <gravity>true</gravity>
+
+      <sensor type="camera" name="${name}_camera">
+        <update_rate>15.0</update_rate>
+        <camera name="camera">
+          <horizontal_fov>${62.2 * M_PI/180.0}</horizontal_fov>
+          <image>
+            <width>3240</width>
+            <height>2464</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <!-- Noise is sampled independently per pixel on each frame.
+                That pixel's noise value is added to each of its color
+                channels, which at that point lie in the range [0,1]. -->
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+        <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+          <alwaysOn>true</alwaysOn>
+          <updateRate>0.0</updateRate>
+          <cameraName>phantomx_turret/camera</cameraName>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <frameName>${name}_lens_link</frameName>
+          <hackBaseline>0.07</hackBaseline>
+          <distortionK1>0.0</distortionK1>
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>
+          <distortionT2>0.0</distortionT2>
+        </plugin>
+      </sensor>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>

@@ -1,0 +1,103 @@
+<robot name="sensor_rplidar"
+    xmlns:xacro="http://ros.org/wiki/xacro">
+    <!-- Joints and Links, standard URDF stuff -->
+    <!-- rplidar Laser -->
+    <link name="rplidar_link">
+        <collision>
+            <origin xyz="0 0 0" rpy="1.5707 0 4.71"/>
+            <geometry>
+                <mesh filename="package://pgbot_robot_description/meshes/rplidar.dae" scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+
+        <visual>
+            <origin xyz="0 0 0" rpy="1.5707 0 4.71"/>
+            <geometry>
+                <mesh filename="package://pgbot_robot_description/meshes/rplidar.dae" scale="0.001 0.001 0.001" />
+            </geometry>
+        </visual>
+
+        <inertial>
+            <mass value="1e-5" />
+            <origin xyz="0 0 0" rpy="1.5707 0 4.71"/>
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+    </link>
+
+    <joint name="rplidar_joint" type="fixed">
+        <axis xyz="0 1 0"/>
+        <origin xyz="0 0 0.1" rpy="0 0 3.1415"/>
+        <!-- parent link of rplidar -->
+        <parent link="stack_laser_pole_link"/>
+        <child link="rplidar_link"/>
+    </joint>
+
+
+    <gazebo reference="rplidar_link">
+        <sensor type="gpu_ray" name="rplidar_link_head">
+            <pose>0 0 0.06 0 0 0</pose>
+            <visualize>false</visualize>
+            <update_rate>40</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>720</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-3.14159265</min_angle>
+                        <max_angle>3.14159265</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.2</min>
+                    <max>25.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.01</stddev>
+                </noise>
+            </ray>
+            <plugin name="gazebo_ros_head_rplidar_controller" filename="libgazebo_ros_gpu_laser.so">
+                <topicName>/scan</topicName>
+                <frameName>rplidar_link</frameName>
+            </plugin>
+        </sensor>
+
+
+    </gazebo>
+
+    <!-- RpLidar A3 using GPU -->
+    <!-- <gazebo reference="laser">
+    <sensor type="gpu_ray" name="head_rplidar_sensor">
+      <pose>0 0 0.06 0 0 0</pose>
+      <visualize>false</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159265</min_angle>
+            <max_angle>3.14159265</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.2</min>
+          <max>25.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_rplidar_controller" filename="libgazebo_ros_gpu_laser.so">
+        <topicName>scan</topicName>
+        <frameName>laser</frameName>
+      </plugin>
+    </sensor>
+  </gazebo> -->
+
+</robot>

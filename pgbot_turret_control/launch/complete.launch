@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="sim" default="false"/>
+    <arg name="port" default="/dev/ttyUSB0" />
+    <group>
+        <include file="$(find pgbot_turret_control)/launch/arbotix_driver.launch">
+            <arg name="sim" value="$(arg sim)"/>
+            <arg name="port" value="$(arg port)" />
+        </include>
+
+        <include file="$(find pgbot_turret_control)/launch/turret_control.launch">
+        </include>
+
+        <include file="$(find pgbot_turret_control)/launch/turret_pose_control.launch">
+        </include>
+    </group>
+</launch>
+

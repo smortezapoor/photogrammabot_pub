@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="pgbot_kobuki_interface" pkg="pgbot_kobuki_interface" type="kobuki_interface.py" output="screen" required="true">
+    </node>
+</launch>

@@ -1,0 +1,23 @@
+ <!-- <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+            
+            <remap from="cmd_vel" to="/cmd_vel_mux/input/navi"/>
+
+            
+            <rosparam file="$(find pgbot_exploration)/config/planner.yaml" command="load"  subst_value="true" />
+            
+            <!-- Global -->
+            <rosparam file="$(find pgbot_exploration)/config/costmap_global_static.yaml" command="load" ns="global_costmap"  subst_value="true" />        
+            <rosparam file="$(find pgbot_exploration)/config/costmap_common.yaml" command="load" ns="global_costmap"  subst_value="true" />
+            
+            <!-- local -->
+            <rosparam file="$(find pgbot_exploration)/config/costmap_local.yaml" command="load" ns="local_costmap"  subst_value="true" />
+            <rosparam file="$(find pgbot_exploration)/config/costmap_common.yaml" command="load" ns="local_costmap"  subst_value="true"/>
+            
+            <param name="local_costmap/width" value="5.0"/>
+            <param name="local_costmap/height" value="5.0"/>
+            
+            <!-- static global costmap, static map provides size -->
+
+            <!-- Load local_planner diff or omni parameters -->
+            <rosparam file="$(find pgbot_exploration)/config/teb_local_planner_diff_params.yaml" command="load" subst_value="true"/>
+        </node> -->

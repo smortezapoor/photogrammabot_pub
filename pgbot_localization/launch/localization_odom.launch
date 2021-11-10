@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>      
+     <!-- ekf_loc1 fuses only continuous data (imu and odometry). Publish the tf from odom_frame to base_footprint -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_loc_odom" clear_params="true" output="screen">   
+        <rosparam command="load" file="$(find pgbot_localization)/config/ekf_localization_odom.yaml" subst_value="true" />
+        <remap from="odometry/filtered" to="odom_fil"/>
+    </node>
+
+</launch>

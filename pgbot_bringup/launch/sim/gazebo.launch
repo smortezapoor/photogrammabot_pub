@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="world_file" default="$(env TURTLEBOT_GAZEBO_WORLD_FILE)"/>
+
+  <arg name="base" value="$(optenv TURTLEBOT_BASE kobuki)"/>
+  <!-- create, roomba -->
+  <arg name="battery" value="$(optenv TURTLEBOT_BATTERY /proc/acpi/battery/BAT0)"/>
+  <!-- /proc/acpi/battery/BAT0 -->
+  <arg name="gui" default="true"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="use_sim_time" value="true"/>
+    <arg name="debug" value="false"/>
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="world_name" value="$(arg world_file)"/>
+    <!-- uncomment this to prevent gazebo from writing tf -->
+    <!-- <arg name="extra_gazebo_args" value="tf:=gazebo_tf" /> -->
+  </include>
+
+  <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find pgbot_robot_description)/robot/iw_turtlebot.urdf.xacro'" />
+  <!-- <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/kobuki_hexagons_astra.urdf.xacro'" /> -->
+  <param name="robot_description" command="$(arg urdf_file)" />
+
+  <!-- Gazebo model spawner -->
+  <node name="spawn_turtlebot_model" pkg="gazebo_ros" type="spawn_model" args=" -unpause -urdf -model mobile_base -param robot_description $(optenv ROBOT_INITIAL_POSE)"/>
+
+  <!-- Velocity muxer -->
+  <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"/>
+  <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load yocs_cmd_vel_mux/CmdVelMuxNodelet mobile_base_nodelet_manager">
+    <param name="yaml_cfg_file" value="$(find turtlebot_bringup)/param/mux.yaml" />
+    <remap from="cmd_vel_mux/output" to="mobile_base/commands/velocity"/>
+  </node>
+
+  <!-- Bumper/cliff to pointcloud (not working, as it needs sensors/core messages) -->
+  <include file="$(find turtlebot_bringup)/launch/includes/kobuki/bumper2pc.launch.xml"/>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="30.0" />
+  </node> 
+
+</launch>

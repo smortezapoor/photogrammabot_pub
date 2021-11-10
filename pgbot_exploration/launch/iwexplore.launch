@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="sim"              default="false" />
+    <arg name="camera_poses" default='$(optenv CAMERA_POSES)' />
+    <node name="pgbot_iwexplore" pkg="pgbot_exploration" type="iwexplore.py" output="screen" required="true">
+        <param name="sim"              value="$(arg sim)" />
+        <param name="camera_poses"     value="$(arg camera_poses)" />
+    </node>
+</launch>

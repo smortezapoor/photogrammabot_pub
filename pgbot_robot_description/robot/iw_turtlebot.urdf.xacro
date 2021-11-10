@@ -1,0 +1,19 @@
+<robot name="turtlebot"
+    xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_common_library.urdf.xacro" />
+    <xacro:include filename="$(find kobuki_description)/urdf/kobuki.urdf.xacro" />
+    <xacro:include filename="$(find turtlebot_description)/urdf/sensors/astra.urdf.xacro"/>
+    <xacro:include filename="$(find pgbot_robot_description)/urdf/stack.urdf.xacro"/>
+    <xacro:include filename="$(find pgbot_robot_description)/urdf/turret.urdf.xacro"/>
+    <xacro:include filename="$(find pgbot_robot_description)/urdf/rplidar.urdf.xacro"/>
+
+
+
+
+    <kobuki/>
+    <stack_hexagons parent="base_link"/>
+    <sensor_rplidar />
+    <!-- <sensor_astra parent="base_link"/> -->
+    <phantomx_turret/>
+</robot>

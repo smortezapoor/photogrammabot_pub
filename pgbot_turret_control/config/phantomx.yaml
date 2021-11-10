@@ -1,0 +1,5 @@
+rate: 50
+joints: {
+    pan_horn_joint: {id: 1,  min_angle: -250, max_angle: 250, max_speed: 530 },
+    tilt_horn_joint: {id: 2, min_angle: -90, max_angle: 90, max_speed: 530}
+}

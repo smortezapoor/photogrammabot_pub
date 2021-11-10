@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="prefix"                  default=""/>
+    
+
+    <arg name="robot_base_frame"        default="$(arg prefix)base_footprint" />
+    <arg name="front_scan_topic"        default="scan" />
+    <arg name="map_topic"               default="$(arg prefix)map" />
+    
+    <arg name="robotmap_frame_name"     default="$(arg prefix)map" />
+    
+    <arg name="robot_odom_frame_name"   default="$(arg prefix)odom" />
+    <arg name="odom_topic"              default="$(arg prefix)odom" />
+    <arg name="custom_param_file"              default="$(find pgbot_exploration)/config/move_base_params.yaml" />
+    
+    <group>
+<!-- 
+        <node name="dynamic_reconfigure_load" pkg="dynamic_reconfigure" type="dynparam" 
+            args="load /move_base/TebLocalPlannerROS $(find pgbot_exploration)/config/teb_local_planner_params.yaml" /> -->
+        <!-- Move base -->
+        <!-- <rosparam command="load" file="$(find pgbot_exploration)/config/eband.yaml"  subst_value="true" /> -->
+        <include file="$(find pgbot_exploration)/launch/include/move_base.launch.xml">
+            <arg name="custom_param_file" value="$(arg custom_param_file)"/>
+        </include>
+
+        <param name="/navigation_velocity_smoother/accel_lim_v" value="0.1" />
+        <param name="/navigation_velocity_smoother/speed_lim_v" value="0.5" />
+
+        <param name="/navigation_velocity_smoother/accel_lim_w" value="1" />
+        <param name="/navigation_velocity_smoother/speed_lim_w" value="1" />
+
+    </group>
+</launch>

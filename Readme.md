@@ -1,6 +1,13 @@
 # Photogrammabot
 
-This robot is based on a Turtlebot 2 with a Kobuki base and is intended for photogrammetric purposes.
+Photogrammabot is an affordable autonomous robot for photography of an indoor environment for photogrammetry purposes. It is capable of exploring an unknown indoor environment, creating a map, and using map-based localization and navigation to navigate the environment and capture as many photos as it is instructed to for photogrammetry.
+
+![Photogrammabot](documentation/img/IMG_20210524_122348.jpg)
+
+Watch this demo video which shows how the robot explores an unknown environment and take many photos. This video shows a simulated version of the robot in Gazebo.
+
+[![Photogrammabot demo video](https://img.youtube.com/vi/lIOdErxPtLU/0.jpg)](https://youtu.be/lIOdErxPtLU)
+
 
 ---
 ---
@@ -14,9 +21,9 @@ See the Changelog file for more information.
 
 ## Hardware
 
-The robot has:
-- [Kobuki base](http://kobuki.yujinrobot.com/about2/) as the base of the robot.
-- [Raspberry Pi 4B 8GB RAM](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) and touchscreen display kit with [Ubiquity Ubuntu-mate 16.04 Xenial](https://downloads.ubiquityrobotics.com/pi.html) and [ROS Kinetic](http://wiki.ros.org/kinetic) as onboard computer.
+The robot is made of:
+- [Kobuki base](http://kobuki.yujinrobot.com/about2/) with 8S2P 8800mAh battery as the base of the robot.
+- [Raspberry Pi 4B 8GB RAM](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) and touchscreen display kit with Ubuntu-mate 18.04 and [ROS Melodic](http://wiki.ros.org/melodic) as onboard computer.
 - [PhantomX micro turret](https://www.trossenrobotics.com/p/phantomX-robot-turret.aspx) with [ArbotiX-M Robotcontroller](https://www.trossenrobotics.com/p/phantomX-robot-turret.aspx) to control the angle of the camera.
 - Sony Camera Multiport S2 adapter with charging capability.
 - Sony Camera with external shutter trigger S2 multiport.
@@ -26,6 +33,12 @@ The robot has:
 ---
 ---
 
+**System diagram and wiring**
+
+![System diagram](documentation/img/SystemDiagram.png)
+
+
+
 ## Installation
 
 ### __ Robot
@@ -33,7 +46,7 @@ The robot has:
 1. Install necessary libraries.
    
     ```bash
-    source automation/on_turtlebot.bash
+    source automation/setup.bash
     ```
 2. Copy USB rules to the following location:
    
@@ -65,7 +78,7 @@ If everything is correctly installed, you should hear different audio signals af
 
 ### __Remote computer
 
-*PREREQUISITE: You should have Ubuntu 16.04 and ROS Kinetic Desktop installed before proceeding.*
+*PREREQUISITE: You should have Ubuntu 18.04 and ROS Melodic Desktop installed before proceeding.*
 
 1. Install necessary libraries:
     ```bash
@@ -92,12 +105,23 @@ If everything is correctly installed, you should hear different audio signals af
 
 Now you should see the Rviz app with the robot visualized.
 
+### Simulation:
+
+To run the simulation, use the following launch file:
+
+```
+roslaunch pgbot_bringup complete_sim.launch
+```
+
+This will launch the simulation in Gazebo, as well as the visualization tool, Rviz.
+
 ---
 ---
 
 ## Operation
 
-*PREREQUISITE: Make sure that the robot is fully charged, the camera is attached and positioned at camera home position¹*
+
+*Comment: This tutorial is made for the robot we built, which can be seen in the photos and also in the robot description file in the code. You may need to skip/adapt some of the steps to your robot if you should decide to make any changes in the structure of the components.*
 
 1. Unfold the LIDAR and make it straight up. Use the level bubble tubes below the LIDAR to make sure it is level somewhat. If the bubble stays in the indicated space, it must be good enough. Please DO NOT touch the LIDAR itself and try to use the handle for adjustments.
 
@@ -204,32 +228,11 @@ Now you should be able to see the customized Rviz view like the one shown in the
 ---
 ---
 
-## Shutdown
-
-**1.1. Use Kobuki buttons:** Use the **B2** button to shut down the robot. When the camera is back in the *home* position, and you hear the sound indicator, it is safe to turn off the robot.
-
-**1.2. Use Desktop Shortcuts:** Execute the Shutdown procedure from the desktop of the RPi.
-
-**2. Switch off the RPi** using its dedicated switch.
-
-**3. Switch off the Kobuki base** using its switch.
-
-
-### What to expect when executing the shutdown procedure?
-
-1. The camera goes back to the *home* position.
-2. The turret goes into *relaxed* state, s.t. the turret does not make any resistance against movement by hand.
-3. The laser range scanner (RPLidar) stops spinning
-4. The RPi turns off
-
----
----
-
 ## FAQ
 
 **The RPi stuck on the rainbow screen.**
 
-Please turn off the Kobuki base, wait for 5 seconds and turn it back.
+Turn off the Kobuki base, wait for 5 seconds and turn it back.
 
 Also, the wiring of the robot and its different components have some considerations, and changing the wirings might introduce problems. For instance, an active USB hub or an externally powered device should not be connected directly to RPi.
 
@@ -241,42 +244,7 @@ The lightning means that the RPi detected undervoltage. This could be due to a b
 
 The robot automatically creates a hotspot to which you can connect. Alternatively, you can connect the RPi to the WiFi network of your environment.
 
-** Status LED of Kobuki is orange**
+**Status LED of Kobuki is orange**
 
 It means that the robot is low on battery and should be recharged. A low battery can cause the onboard RPi to restart frequently and/or boot problems.
 
-**Username / Password of the robot**
-
-The root username and password of the RPi are:
-```
-User: ubuntu
-Pass: ubuntu
-```
-
-**Username / Password of the WiFi hotspot**
-
-```
-SSID: iwturtlebot
-Pass: robotseverywhere
-```
-
-
-**SSH Connection to the robot**
-
-You can connect to the robot using SSH. In order to do that, execute the following command and use the password.
-
-```bash
-ssh ubuntu@ROBOT_IP_ADDRESS
-```
-
-**ROS data**
-
-See the installation of a remote computer. On a remote computer, you can access topics, nodes, and services of ROS. Make sure that you have a correct `ROS_MASTER_URI` to point to the robot.
-
-**Robot battery**
-
-The robot battery is 8S2P 8800mAh battery which has double the capacity of a standard battery of Kobuki. Therefore the battery is enough for several hours. However, it is recommended to recharge the battery several hours before use. Generally, it is recommended to keep batteries full when the device is going to be stored for a long time.
-
-**System diagram and wiring**
-
-![System diagram](documentation/img/SystemDiagram.png)

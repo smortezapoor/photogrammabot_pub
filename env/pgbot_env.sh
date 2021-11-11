@@ -6,6 +6,6 @@ export CAMERA_POSES='[{"pan": -90, "tilt": -85}, {"pan":  -60, "tilt": -30}, {"p
 export PORT_ARBOTIX=/dev/arbotix
 export PORT_RPLIDAR=/dev/rplidar
 export PORT_KOBUKI=/dev/kobuki
-export TURTLEBOT_GAZEBO_WORLD_FILE='$(find pgbot_bringup)/gazebo/test_room_scat.world'
+export TURTLEBOT_GAZEBO_WORLD_FILE='$(find pgbot_bringup)/gazebo/test_room_scat_fin.world'
 export TURTLEBOT_BATTERY=/proc/acpi/battery/BAT0
 export TURTLEBOT_STACKS=hexagons

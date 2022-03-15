@@ -12,7 +12,7 @@ def shoot(timeout):
         
 
         # Wait 1 second
-        rospy.sleep(rospy.Duration(1))
+        # rospy.sleep(rospy.Duration(1))
 
         # Shoot
        
@@ -22,7 +22,7 @@ def shoot(timeout):
 
         # Reset shutter
 
-        rospy.sleep(rospy.Duration(0.2))
+        # rospy.sleep(rospy.Duration(0.2))
 
         # Reset focus
 

@@ -55,7 +55,7 @@ DWAPlannerROS:
 
 EBandPlannerROS:
   # GoalTolerance
-  xy_goal_tolerance: 0.3                            # Distance tolerance for reaching goal pose (default: 0.1)
+  xy_goal_tolerance: 0.2                            # Distance tolerance for reaching goal pose (default: 0.1)
   yaw_goal_tolerance: 0.1                          # Orientation tolerance for reaching the desired goal pose (default: 0.05)  
   rot_stopped_vel: 0.01                             # Angular velocity lower bound that determines if the robot should stop to avoid
                                                     # limit-cycles or locks (default: 0.01)
@@ -85,9 +85,9 @@ EBandPlannerROS:
 
 
   # TRAJECTORY CONTROLLER PARAMETERS  
-  max_vel_lin: 2.0                                 # Maximum linear velocity (default: 0.75)
+  max_vel_lin: 3.0                                 # Maximum linear velocity (default: 0.75)
   max_vel_th: 0.5                                   # Maximum angular velocity (default: 1.0)
-  min_vel_lin: 0.1                                  # Minimum linear velocity (default: 0.1)
+  min_vel_lin: 0.3                                  # Minimum linear velocity (default: 0.1)
   min_vel_th: 0.0                                   # Minimum angular velocity (default: 0.0)
   min_in_place_vel_th: 0.0                          # Minimum in-place angular velocity (default: 0.0)
   in_place_trans_vel: 0.0                           # Minimum in place linear velocity (default: 0.0)
@@ -97,7 +97,7 @@ EBandPlannerROS:
   max_acceleration: 0.5                             # Maximum allowable acceleration (default: 0.5)
   virtual_mass: 0.75                                # Virtual mass (default: 0.75)
   max_translational_acceleration: 0.25               # Maximum linear acceleration (default: 0.5)
-  max_rotational_acceleration: 0.5                  # Maximum angular acceleration (default: 1.5)
+  max_rotational_acceleration: 0.2                 # Maximum angular acceleration (default: 1.5)
   rotation_correction_threshold: 0.5                # Rotation correction threshold (default: 0.5)
   differential_drive: True                          # Denotes whether to use the differential drive mode (default: True)
   bubble_velocity_multiplier: 2.0                   # Multiplier of bubble radius (default: 2.0)

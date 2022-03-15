@@ -23,11 +23,11 @@
             <arg name="custom_param_file" value="$(arg custom_param_file)"/>
         </include>
 
-        <param name="/navigation_velocity_smoother/accel_lim_v" value="0.1" />
-        <param name="/navigation_velocity_smoother/speed_lim_v" value="0.5" />
+        <param name="/navigation_velocity_smoother/accel_lim_v" value="0.5" />
+        <param name="/navigation_velocity_smoother/speed_lim_v" value="2" />
 
-        <param name="/navigation_velocity_smoother/accel_lim_w" value="1" />
-        <param name="/navigation_velocity_smoother/speed_lim_w" value="1" />
+        <param name="/navigation_velocity_smoother/accel_lim_w" value="2" />
+        <param name="/navigation_velocity_smoother/speed_lim_w" value="2" />
 
     </group>
 </launch>

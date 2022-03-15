@@ -184,8 +184,8 @@ def output_to_rviz(array, scale, color, current_goal=False):
         marker.action = marker.ADD
         duration = (120 if current_goal else 0.0)
         marker.lifetime = rospy.Duration(duration)
-        marker.scale = Point(scale.x*1.5, scale.y*1.5, scale.z)
-        marker.color = ColorRGBA(0, 0, 0, 0.8)
+        marker.scale = Point(scale.x*1.5, scale.y*1.5, scale.z*0.5)
+        marker.color = ColorRGBA(232, 191, 58, 0.8)
         # x and y are inverted due to nature of the map
         marker.pose.position.x = array[index][1]
         marker.pose.position.y = array[index][0]
@@ -213,7 +213,7 @@ def output_to_rviz(array, scale, color, current_goal=False):
         duration = 0
         marker_compen.lifetime = rospy.Duration(duration)
         marker_compen.scale = Point(scale.x*1.5, scale.y*.5, scale.z*.5)
-        marker_compen.color = ColorRGBA(0, 0, 0, 0.8)
+        marker_compen.color = ColorRGBA(232, 191, 58, 0.8)
         # x and y are inverted due to nature of the map
         marker_compen.pose.position.x = array[index][1]
         marker_compen.pose.position.y = array[index][0]
@@ -267,8 +267,8 @@ def controller(goals):
             current_goal = []
             current_goal.append(goal)
             scale_current = Point(dimention*1.5, dimention*1.5, dimention*1.5)
-            output_to_rviz(current_goal, scale_current, ColorRGBA(
-                0.0, 0.0, 1.0, 0.80), current_goal=True)
+            #output_to_rviz(current_goal, scale_current, ColorRGBA(
+            #    0.0, 0.0, 1.0, 0.80), current_goal=True)
 
             goal_theta = goal[2]
 

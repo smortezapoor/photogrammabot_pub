@@ -19,6 +19,30 @@ See the Changelog file for more information.
 ---
 ---
 
+## Using Photogrammabot
+
+Here in this paper you can find more accurate information about Photogrammabot and the evaluation results. 
+
+[Photogrammabot: An Autonomous ROS-Based Mobile Photography Robot for Precise 3D Reconstruction and Mapping of Large Indoor Spaces for Mixed Reality](https://ieeexplore.ieee.org/document/9757663)
+
+Additionally, if you want to use Photogrammabot in full or partially in your own work and want to cite it, please use the following BibTex reference:
+
+```
+@INPROCEEDINGS{9757663,
+   author={Mortezapoor, Soroosh and Schönauer, Christian and Rüggeberg, Julien and Kaufmann, Hannes},  
+   booktitle={2022 IEEE Conference on Virtual Reality and 3D User Interfaces Abstracts and Workshops (VRW)},   
+   title={Photogrammabot: An Autonomous ROS-Based Mobile Photography Robot for Precise 3D Reconstruction and Mapping of Large Indoor Spaces for Mixed Reality},   
+   year={2022},  
+   volume={},  
+   number={},  
+   pages={101-107},  
+   doi={10.1109/VRW55335.2022.00033}
+}
+```
+
+---
+---
+
 ## Hardware
 
 The robot is made of:
